@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "job-apply-ai"
+version = "0.1.0"
+description = "A LangGraph-based job application workflow."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "langchain-openai>=1.8,<2",
+    "langgraph>=1.2,<2",
+    "langgraph-checkpoint-sqlite>=3.1,<4",
+    "pydantic>=2.14,<3",
+    "python-dotenv>=1.2,<2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=9,<10"]
+
+[project.scripts]
+job-apply-spike = "job_apply.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/job_apply"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
