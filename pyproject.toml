@@ -9,18 +9,25 @@ description = "A LangGraph-based job application workflow."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "fastapi>=0.123,<1",
+    "httpx>=0.28,<1",
     "langchain-openai>=1.8,<2",
     "langgraph>=1.2,<2",
     "langgraph-checkpoint-sqlite>=3.1,<4",
     "pydantic>=2.14,<3",
+    "pypdf>=6.4,<7",
+    "python-docx>=1.2,<2",
     "python-dotenv>=1.2,<2",
+    "reportlab>=4.4,<5",
+    "uvicorn>=0.38,<1",
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=9,<10"]
+dev = ["pytest>=9,<10", "playwright>=1.57,<2"]
 
 [project.scripts]
 job-apply-spike = "job_apply.cli:main"
+job-apply-dashboard = "job_apply.dashboard:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/job_apply"]

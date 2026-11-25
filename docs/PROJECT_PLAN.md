@@ -760,34 +760,38 @@ Use synthetic fixtures in the repository. Real resumes and application data rema
 - [x] Separate `prepared` applications from explicit submission confirmation and metrics.
 - [x] Add typed candidate-clarification interrupts that save answers as evidence and re-run matching without repeating answered questions.
 
-### Milestone 3 — Candidate profile and document support
+### Milestone 3 — Candidate profile and document support (foundation complete)
 
-- Add reusable candidate evidence profile.
-- Parse TXT and DOCX resumes.
-- Add PDF extraction.
-- Generate DOCX output.
-- Store versioned resume artifacts and diffs.
+- [x] Add a reusable structured candidate profile with atomic JSON persistence.
+- [x] Parse TXT, Markdown, DOCX, and extractable PDF resumes.
+- [x] Generate DOCX and PDF resume output.
+- [x] Keep profile data and generated artifacts ignored by Git.
+- [ ] Add template-aware formatting and profile import that maps parsed text into fields.
 
-### Milestone 4 — Job pipeline
+### Milestone 4 — Job pipeline (foundation complete)
 
-- Save and prioritize jobs.
-- Track application status and follow-ups.
-- Associate every application with its resume and strategy.
-- Add conversion analytics.
+- [x] Track prepared/submitted/interview/offer/rejection application states in SQLite.
+- [x] Associate every prepared application with its approved draft hash and artifact.
+- [x] Add a localhost dashboard with pipeline and conversion metrics.
+- [x] Add replay-safe event storage and status updates.
+- [ ] Add reminders and richer follow-up scheduling.
 
-### Milestone 5 — Interview conversion
+### Milestone 5 — Interview conversion (analytics foundation complete)
 
 - Generate claim-specific interview questions.
 - Add preparation plans and mock-review workflows.
 - Record interview stages and feedback.
 - Detect recurring knowledge and performance gaps.
+- [x] Add stable A/B assignment and minimum-sample interview/offer summaries.
 
-### Milestone 6 — Discovery and assisted application
+### Milestone 6 — Discovery and assisted application (foundation complete)
 
-- Import supported job URLs.
-- Add company and technology research.
-- Add job discovery connectors.
-- Add approval-based browser assistance for applications.
+- [x] Add public Greenhouse and Lever discovery connectors.
+- [x] Add canonical deduplication and posting-liveness verification.
+- [x] Add explainable job-quality and company hiring-signal research.
+- [x] Add exact-state approval-bound visible browser autofill with screenshots.
+- [x] Exclude automatic submission from the browser driver interface.
+- [ ] Expand the connector registry to additional ATS providers.
 
 ## 20. First vertical-slice acceptance criteria
 

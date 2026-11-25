@@ -41,7 +41,7 @@ class SQLiteApplicationStore:
     def __init__(self, database_path: Path) -> None:
         self.database_path = database_path.resolve()
         self.database_path.parent.mkdir(parents=True, exist_ok=True)
-        self._connection = sqlite3.connect(self.database_path)
+        self._connection = sqlite3.connect(self.database_path, check_same_thread=False)
         self._connection.row_factory = sqlite3.Row
         self._setup()
 
@@ -67,6 +67,14 @@ class SQLiteApplicationStore:
                 draft_hash TEXT NOT NULL,
                 path TEXT NOT NULL UNIQUE,
                 content_hash TEXT NOT NULL,
+                FOREIGN KEY(application_id) REFERENCES applications(id)
+            );
+            CREATE TABLE IF NOT EXISTS application_events (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                application_id TEXT NOT NULL,
+                event_type TEXT NOT NULL,
+                occurred_at TEXT NOT NULL,
+                metadata TEXT NOT NULL DEFAULT '{}',
                 FOREIGN KEY(application_id) REFERENCES applications(id)
             );
             """
@@ -183,6 +191,60 @@ class SQLiteApplicationStore:
             "SELECT COUNT(*) AS count FROM artifacts"
         ).fetchone()
         return int(row["count"])
+
+    def list_applications(self) -> list[PreparedApplication]:
+        rows = self._connection.execute(
+            "SELECT * FROM applications ORDER BY prepared_at DESC"
+        ).fetchall()
+        return [self._row_to_application(row) for row in rows]
+
+    def update_status(
+        self, application_id: str, status: ApplicationStatus
+    ) -> PreparedApplication:
+        cursor = self._connection.execute(
+            "UPDATE applications SET status = ? WHERE id = ?",
+            (status.value, application_id),
+        )
+        if cursor.rowcount == 0:
+            raise KeyError(application_id)
+        self._connection.commit()
+        return self.get_application(application_id)
+
+    def record_event(
+        self,
+        application_id: str,
+        event_type: str,
+        *,
+        occurred_at: datetime | None = None,
+        metadata: str = "{}",
+    ) -> None:
+        self.get_application(application_id)
+        self._connection.execute(
+            """
+            INSERT INTO application_events
+                (application_id, event_type, occurred_at, metadata)
+            VALUES (?, ?, ?, ?)
+            """,
+            (
+                application_id,
+                event_type,
+                (occurred_at or datetime.now(UTC)).isoformat(),
+                metadata,
+            ),
+        )
+        self._connection.commit()
+
+    def list_events(self, application_id: str) -> list[dict[str, str]]:
+        rows = self._connection.execute(
+            """
+            SELECT event_type, occurred_at, metadata
+            FROM application_events
+            WHERE application_id = ?
+            ORDER BY occurred_at
+            """,
+            (application_id,),
+        ).fetchall()
+        return [dict(row) for row in rows]
 
     @staticmethod
     def _row_to_application(row: sqlite3.Row) -> PreparedApplication:
