@@ -28,6 +28,7 @@ dev = ["pytest>=9,<10", "playwright>=1.57,<2"]
 [project.scripts]
 job-apply-spike = "job_apply.cli:main"
 job-apply-dashboard = "job_apply.dashboard:main"
+job-apply-render = "job_apply.render_cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/job_apply"]

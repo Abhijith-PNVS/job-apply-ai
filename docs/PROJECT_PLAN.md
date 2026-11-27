@@ -280,6 +280,8 @@ Responsibilities:
 - Produce complete structured edit operations.
 - Label every changed claim by evidence status.
 - Respond to Tech God findings during revision cycles.
+- Write new and revised role bullets using the compressed STAR contract: situation/task context, specific action/ownership, and a verified measurable or qualitative result.
+- Ask for clarification when a material result is unknown; never manufacture a metric to complete STAR.
 
 ### 8.4 Tech God — Principal Technical Reviewer
 
@@ -766,7 +768,9 @@ Use synthetic fixtures in the repository. Real resumes and application data rema
 - [x] Parse TXT, Markdown, DOCX, and extractable PDF resumes.
 - [x] Generate DOCX and PDF resume output.
 - [x] Keep profile data and generated artifacts ignored by Git.
-- [ ] Add template-aware formatting and profile import that maps parsed text into fields.
+- [x] Add sample-derived `classic_ats` and `dense_backend` template-aware formatting.
+- [x] Add STAR-derived role-bullet contracts, validation, and writer instructions.
+- [ ] Add profile import that maps parsed text into structured fields.
 
 ### Milestone 4 — Job pipeline (foundation complete)
 

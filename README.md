@@ -15,7 +15,8 @@ Implemented product foundations:
 
 - Structured local candidate profile with JSON persistence
 - TXT, Markdown, DOCX, and PDF resume import
-- DOCX and PDF resume export
+- Sample-derived `classic_ats` and `dense_backend` DOCX/PDF resume designs
+- STAR-derived role bullet contracts and validation
 - Public Greenhouse and Lever discovery adapters
 - Canonical job deduplication and posting-liveness checks
 - Explainable job-quality and company hiring signals
@@ -41,6 +42,14 @@ Run the local dashboard:
 uv run --isolated --python 3.14 --with-editable ".[dev]" job-apply-dashboard
 ```
 
+Render the local structured profile with either sample-derived design:
+
+```powershell
+uv run --isolated --python 3.14 --with-editable ".[dev]" job-apply-render --profile data/profile.json --output outputs/resume --design classic_ats
+```
+
+Use `--design dense_backend` for the tighter 10-point backend layout.
+
 Visible browser autofill requires Chromium once:
 
 ```powershell
@@ -57,3 +66,5 @@ uv run --isolated --python 3.14 --with-editable ".[dev]" job-apply-spike --live
 ```
 
 The complete design is documented in [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md).
+Resume typography, layout, and STAR rules are documented in
+[docs/RESUME_DESIGN_SYSTEM.md](docs/RESUME_DESIGN_SYSTEM.md).

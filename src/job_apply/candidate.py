@@ -7,6 +7,8 @@ from pathlib import Path
 
 from pydantic import BaseModel, Field
 
+from job_apply.star import StarBullet
+
 
 class Experience(BaseModel):
     employer: str
@@ -15,7 +17,11 @@ class Experience(BaseModel):
     end_date: str | None = None
     location: str | None = None
     bullets: list[str] = Field(default_factory=list)
+    star_bullets: list[StarBullet] = Field(default_factory=list)
     technologies: list[str] = Field(default_factory=list)
+
+    def rendered_bullets(self) -> list[str]:
+        return [*self.bullets, *(bullet.render() for bullet in self.star_bullets)]
 
 
 class Project(BaseModel):
@@ -59,7 +65,7 @@ class CandidateProfile(BaseModel):
     def evidence_lines(self) -> list[str]:
         lines = [*self.skills]
         for experience in self.experiences:
-            lines.extend(experience.bullets)
+            lines.extend(experience.rendered_bullets())
             lines.extend(experience.technologies)
         for project in self.projects:
             lines.append(project.description)

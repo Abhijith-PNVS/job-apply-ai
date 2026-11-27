@@ -120,7 +120,12 @@ class OpenAIResumeWriter:
     ) -> DraftResult:
         prompt = (
             "Create the strongest defensible Markdown resume draft for the job. "
-            "Do not change employers, dates, education, or credentials.\n\n"
+            "Do not change employers, dates, education, or credentials. "
+            "Write each role bullet as one concise STAR-derived statement: include "
+            "situation/task context, the candidate's specific action and ownership, "
+            "and a measurable or concrete qualitative result. Start with an action "
+            "verb, prioritize Action and Result, and never fabricate a metric. If a "
+            "result is unknown, request clarification instead of inventing it.\n\n"
             f"SOURCE RESUME:\n{resume_text}\n\nJOB DESCRIPTION:\n{job_text}\n\n"
             f"PREVIOUS DRAFT:\n{previous_draft or '(none)'}\n\n"
             f"REVIEW FEEDBACK:\n{feedback or ['(none)']}\n\n"
